@@ -128,6 +128,7 @@ class EnvFile
         $contents = $twig->render(
             'env_mb.twig',
             [
+                'env' => $_ENV,
                 'config' => $config,
                 'additional_vars' => $additionalVars,
             ]
