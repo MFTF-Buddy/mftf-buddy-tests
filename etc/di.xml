@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<!-- Entity value gets replaced in Dom.php before reading $xml -->
+<!DOCTYPE config [
+        <!ENTITY commonTestActions "acceptPopup|actionGroup|amOnPage|amOnUrl|amOnSubdomain|appendField|assertArrayIsSortasserted|assertElementContainsAttribute|attachFile|cancelPopup|checkOption|clearField|click|clickWithLeftButton|clickWithRightButton|closeAdminNotification|closeTab|comment|conditionalClick|createData|deleteData|updateData|getData|dontSee|dontSeeJsError|dontSeeCheckboxIsChecked|dontSeeCookie|dontSeeCurrentUrlEquals|dontSeeCurrentUrlMatches|dontSeeElement|dontSeeElementInDOM|dontSeeInCurrentUrl|dontSeeInField|dontSeeInFormFields|dontSeeInPageSource|dontSeeInSource|dontSeeInTitle|dontSeeLink|dontSeeOptionIsSelected|doubleClick|dragAndDrop|entity|executeJS|fillField|formatCurrency|generateDate|getOTP|grabAttributeFrom|grabCookie|grabFromCurrentUrl|grabMultiple|grabPageSource|grabTextFrom|grabValueFrom|return|loadSessionSnapshot|loginAsAdmin|magentoCLI|magentoCron|makeScreenshot|maximizeWindow|moveBack|moveForward|moveMouseOver|mSetLocale|mResetLocale|openNewTab|pause|parseFloat|pressKey|reloadPage|resetCookie|submitForm|resizeWindow|saveSessionSnapshot|scrollTo|scrollToTopOfPage|searchAndMultiSelectOption|see|seeCheckboxIsChecked|seeCookie|seeCurrentUrlEquals|seeCurrentUrlMatches|seeElement|seeElementInDOM|seeInCurrentUrl|seeInField|seeInFormFields|seeInPageSource|seeInPopup|seeInSource|seeInTitle|seeLink|seeNumberOfElements|seeOptionIsSelected|selectOption|setCookie|submitForm|switchToIFrame|switchToNextTab|switchToPreviousTab|switchToWindow|typeInPopup|uncheckOption|unselectOption|wait|waitForAjaxLoad|waitForElement|waitForElementChange|waitForElementNotVisible|waitForElementVisible|waitForPwaElementNotVisible|waitForPwaElementVisible|waitForJS|waitForLoadingMaskToDisappear|waitForPageLoad|waitForText|assertArrayHasKey|assertArrayNotHasKey|assertContains|assertStringContainsString|assertStringContainsStringIgnoringCase|assertCount|assertEmpty|assertEquals|assertFalse|assertFileExists|assertFileNotExists|assertGreaterOrEquals|assertGreaterThan|assertGreaterThanOrEqual|assertInstanceOf|assertIsEmpty|assertLessOrEquals|assertLessThan|assertLessThanOrEqual|assertNotContains|assertStringNotContainsString|assertStringNotContainsStringIgnoringCase|assertNotEmpty|assertNotEquals|assertNotInstanceOf|assertNotNull|assertNotRegExp|assertNotSame|assertNull|assertRegExp|assertSame|assertStringStartsNotWith|assertStringStartsWith|assertTrue|expectException|fail|dontSeeFullUrlEquals|dontSee|dontSeeFullUrlMatches|dontSeeInFullUrl|seeFullUrlEquals|seeFullUrlMatches|seeInFullUrl|grabFromFullUrl|helper|assertEqualsWithDelta|assertEqualsCanonicalizing|assertEqualsIgnoringCase|assertNotEqualsWithDelta|assertNotEqualsCanonicalizing|assertNotEqualsIgnoringCase">
+]>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/ObjectManager/etc/config.xsd">
+    <preference for="MFTFBuddy\Tests\ObjectManagerInterface" type="MFTFBuddy\Tests\ObjectManager" />
+    <preference for="MFTFBuddy\Tests\ObjectManager\FactoryInterface" type="MFTFBuddy\Tests\ObjectManager\Factory" />
+    <preference for="MFTFBuddy\Tests\ObjectManager\ConfigInterface" type="MFTFBuddy\Tests\ObjectManager\Config\Config" />
+    <preference for="MFTFBuddy\Tests\Data\Argument\InterpreterInterface" type="MFTFBuddy\Tests\Data\Argument\Interpreter\Composite" />
+    <preference for="MFTFBuddy\Tests\Config\ReaderInterface" type="MFTFBuddy\Tests\Config\Reader\Filesystem" />
+    <preference for="MFTFBuddy\Tests\Config\FileResolverInterface" type="MFTFBuddy\Tests\Config\FileResolver\Primary" />
+    <preference for="MFTFBuddy\Tests\Config\ConverterInterface" type="MFTFBuddy\Tests\Config\Converter" />
+    <preference for="MFTFBuddy\Tests\Config\SchemaLocatorInterface" type="MFTFBuddy\Tests\Config\SchemaLocator" />
+    <preference for="MFTFBuddy\Tests\Config\ValidationStateInterface" type="MFTFBuddy\Tests\Config\ValidationState" />
+    <preference for="MFTFBuddy\Tests\Util\ModuleResolver\SequenceSorterInterface" type="MFTFBuddy\Tests\Util\ModuleResolver\SequenceSorter" />
+
+    <type name="MFTFBuddy\Tests\Data\Argument\Interpreter\Composite">
+        <arguments>
+            <argument name="interpreters" xsi:type="array">
+                <item name="object" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\DataObject</item>
+                <item name="array" xsi:type="object">arrayArgumentInterpreterProxy</item>
+                <item name="boolean" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\Boolean</item>
+                <item name="number" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\Number</item>
+                <item name="string" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\StringUtils</item>
+                <item name="null" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\NullType</item>
+                <item name="const" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\Constant</item>
+            </argument>
+            <argument name="discriminator" xsi:type="string">xsi:type</argument>
+        </arguments>
+    </type>
+    <type name="MFTFBuddy\Tests\Data\Argument\Interpreter\ArrayType">
+        <arguments>
+            <argument name="itemInterpreter" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\Composite</argument>
+        </arguments>
+    </type>
+    <type name="MFTFBuddy\Tests\Config\ValidationState">
+        <arguments>
+            <argument name="appMode" xsi:type="string">developer</argument>
+        </arguments>
+    </type>
+    <type name="MFTFBuddy\Tests\Config\Converter">
+        <arguments>
+            <argument name="argumentParser" xsi:type="object">converterArgumentParser</argument>
+            <argument name="argumentInterpreter" xsi:type="object">MFTFBuddy\Tests\Data\Argument\Interpreter\Composite</argument>
+            <argument name="argumentNodeName" xsi:type="string">data</argument>
+        </arguments>
+    </type>
+    <type name="MFTFBuddy\Tests\Util\ModuleResolver\SequenceSorter" />
+    <!--
+    Array item can be of any type just like an argument, including array type itself, which creates circular dependency.
+    Proxy is used to resolve the circular dependency, so that array items undergo the same interpretation as arguments.
+    -->
+    <virtualType name="converterArgumentParser" type="MFTFBuddy\Tests\ObjectManager\Config\Mapper\ArgumentParser" />
+    <virtualType name="arrayArgumentInterpreterProxy" type="MFTFBuddy\Tests\Data\Argument\InterpreterInterface\Proxy">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">MFTFBuddy\Tests\Data\Argument\Interpreter\ArrayType</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration for PageObject -->
+
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\Page" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/Page/etc/mergedPageObject.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\Section" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/Page/etc/mergedSectionObject.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\Page" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\Page</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\Page\Config\Dom</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/pages/page" xsi:type="string">name</item>
+                <item name="/pages/page/section" xsi:type="string">name</item>
+            </argument>
+            <argument name="fileName" xsi:type="string">/Page\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Page</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\Section" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\Section</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\Page\Config\SectionDom</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/sections/section" xsi:type="string">name</item>
+                <item name="/sections/section/element" xsi:type="string">name</item>
+            </argument>
+            <argument name="fileName" xsi:type="string">/Section\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Section</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="MFTFBuddy\Tests\XmlParser\PageParser">
+        <arguments>
+            <argument name="configData" xsi:type="object">MFTFBuddy\Tests\Page\Config\Data</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="MFTFBuddy\Tests\Page\Config\Data" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\Page</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="MFTFBuddy\Tests\XmlParser\SectionParser">
+        <arguments>
+            <argument name="configData" xsi:type="object">MFTFBuddy\Tests\Section\Config\Data</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="MFTFBuddy\Tests\Section\Config\Data" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\Section</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration for Data.xml -->
+
+    <type name="MFTFBuddy\Tests\DataGenerator\Parsers\DataProfileSchemaParser">
+        <arguments>
+            <argument name="dataProfiles" xsi:type="object">MFTFBuddy\Tests\DataProfile\Config\Data</argument>
+        </arguments>
+    </type>
+    <virtualType name="MFTFBuddy\Tests\DataProfile\Config\Data" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\DataProfile</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\DataProfile" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/DataGenerator/etc/dataProfileSchema.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\DataProfile" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\Converter</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\DataGenerator\Config\Dom</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\DataProfile</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/entities/entity" xsi:type="string">name</item>
+                <item name="/entities/entity/(data|array)" xsi:type="string">key</item>
+                <item name="/entities/entity/array/item" xsi:type="string">name</item>
+                <item name="/entities/entity/requiredEntity" xsi:type="string">type</item>
+            </argument>
+            <argument name="mergeablePaths" xsi:type="array">
+                <item name="/entities/entity/requiredEntity" xsi:type="string"/>
+                <item name="/entities/entity/array" xsi:type="string"/>
+            </argument>
+            <argument name="fileName" xsi:type="string">/Data\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Data</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration for Data Operation Metadata.xml -->
+
+    <type name="MFTFBuddy\Tests\DataGenerator\Parsers\OperationDefinitionParser">
+        <arguments>
+            <argument name="metadata" xsi:type="object">MFTFBuddy\Tests\DataProfile\Config\Metadata</argument>
+        </arguments>
+    </type>
+    <virtualType name="MFTFBuddy\Tests\DataProfile\Config\Metadata" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\Metadata</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\Metadata" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/DataGenerator/etc/dataOperation.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\Metadata" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\Converter</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\DataGenerator\Config\OperationDom</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\Metadata</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/operations/operation" xsi:type="string">name</item>
+                <item name="/operations/operation/(field|array)" xsi:type="string">key</item>
+            </argument>
+            <argument name="mergeablePaths" xsi:type="array">
+                <item name="/operations/operation/object" xsi:type="string"/>
+            </argument>
+            <argument name="fileName" xsi:type="string">/Meta\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Metadata</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configuration for TestData -->
+
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\TestData" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/Test/etc/mergedTestSchema.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\TestData" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\TestDataConverter</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\TestData</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\Test\Config\Dom</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/tests/test" xsi:type="string">name</item>
+                <item name="/tests/test/actionGroup/argument" xsi:type="string">name</item>
+                <item name="/tests/test/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/tests/test/(createData|updateData|getData)/field" xsi:type="string">key</item>
+                <item name="/tests/test/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/tests/test/helper/argument" xsi:type="string">name</item>
+                <item name="/tests/test/(before|after)/helper/argument" xsi:type="string">name</item>
+                <item name="/tests/test/(before|after)/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/tests/test/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/tests/test/(before|after)/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/tests/test/(before|after)/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/tests/test/(before|after)/(createData|updateData|getData)/field" xsi:type="string">key</item>
+                <item name="/tests/test/annotations(/group)+" xsi:type="string">value</item>
+            </argument>
+            <argument name="fileName" xsi:type="string">/\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Test</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Test\Config\Dom\ArrayNodeConfig" type="MFTFBuddy\Tests\Config\Dom\ArrayNodeConfig">
+        <arguments>
+            <argument name="assocArrayAttributes" xsi:type="array">
+                <item name="/tests/test/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/tests/test/(before|after)/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/tests/test/helper/argument" xsi:type="string">name</item>
+                <item name="/tests/test/(before|after)/helper/argument" xsi:type="string">name</item>
+                <item name="/tests/test/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/tests/test/(before|after)/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/tests/test" xsi:type="string">name</item>
+                <item name="/tests/test/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/tests/test/(before|after)/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/tests/test/(createData|updateData|getData)/field" xsi:type="string">key</item>
+                <item name="/tests/test/(before|after)/(createData|updateData|getData)/field" xsi:type="string">key</item>
+                <item name="/tests/test/actionGroup/argument" xsi:type="string">name</item>
+                <item name="/tests/test/(before|after)/actionGroup/argument" xsi:type="string">name</item>
+            </argument>
+            <argument name="numericArrays" xsi:type="array">
+                <item name="/tests/test/annotations/features" xsi:type="string">/tests/test/annotations/features</item>
+                <item name="/tests/test/annotations/stories" xsi:type="string">/tests/test/annotations/stories</item>
+                <item name="/tests/test/annotations/title" xsi:type="string">/tests/test/annotations/title</item>
+                <item name="/tests/test/annotations/description" xsi:type="string">/tests/test/annotations/description</item>
+                <item name="/tests/test/annotations/severity" xsi:type="string">/tests/test/annotations/severity</item>
+                <item name="/tests/test/annotations/testCaseId" xsi:type="string">/tests/test/annotations/testCaseId</item>
+                <item name="/tests/test/annotations/useCaseId" xsi:type="string">/tests/test/annotations/useCaseId</item>
+                <item name="/tests/test/annotations/group" xsi:type="string">/tests/test/annotations/group</item>
+                <item name="/tests/test/annotations/env" xsi:type="string">/tests/test/annotations/env</item>
+                <item name="/tests/test/annotations/return" xsi:type="string">/tests/test/annotations/return</item>
+                <item name="/tests/test/annotations/skip/issueId" xsi:type="string">/tests/test/annotations/skip/issueId</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Config\TestDataConverter" type="MFTFBuddy\Tests\Test\Config\Converter\Dom\Flat">
+        <arguments>
+            <argument name="arrayNodeConfig" xsi:type="object">MFTFBuddy\Tests\Test\Config\Dom\ArrayNodeConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="MFTFBuddy\Tests\Test\Parsers\TestDataParser">
+        <arguments>
+            <argument name="testData" xsi:type="object">MFTFBuddy\Tests\Test\Config\Data</argument>
+        </arguments>
+    </type>
+    <virtualType name="MFTFBuddy\Tests\Test\Config\Data" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\TestData</argument>
+        </arguments>
+    </virtualType>
+
+    <!--Config for Action Group -->
+
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\ActionGroup" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/Test/etc/mergedActionGroupSchema.xsd</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\ActionGroupData" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Mask</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\ActionGroupDataConverter</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\ActionGroup</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\Test\Config\ActionGroupDom</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/actionGroups/actionGroup" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/arguments/argument" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/helper/argument" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/(&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/actionGroups/actionGroup/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/actionGroups/actionGroup/(createData|updateData|getData)/field" xsi:type="string">key</item>
+                <item name="/actionGroups/actionGroup/remove" xsi:type="string">keyForRemoval</item>
+            </argument>
+            <argument name="fileName" xsi:type="string">/ActionGroup\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">ActionGroup</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Test\Config\Dom\ActionGroupArrayNodeConfig" type="MFTFBuddy\Tests\Config\Dom\ArrayNodeConfig">
+        <arguments>
+            <argument name="assocArrayAttributes" xsi:type="array">
+                <item name="/actionGroups/actionGroup/(&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/actionGroups/actionGroup/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/actionGroups/actionGroup" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/arguments/argument" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/helper/argument" xsi:type="string">name</item>
+                <item name="/actionGroups/actionGroup/(createData|updateData|getData)/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/actionGroups/actionGroup/(createData|updateData|getData)/field" xsi:type="string">key</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Config\ActionGroupDataConverter" type="MFTFBuddy\Tests\Test\Config\Converter\Dom\Flat">
+        <arguments>
+            <argument name="arrayNodeConfig" xsi:type="object">MFTFBuddy\Tests\Test\Config\Dom\ActionGroupArrayNodeConfig</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="MFTFBuddy\Tests\Test\Parsers\ActionGroupDataParser">
+        <arguments>
+            <argument name="actionGroupData" xsi:type="object">MFTFBuddy\Tests\Test\Config\ActionGroupData</argument>
+        </arguments>
+    </type>
+    <virtualType name="MFTFBuddy\Tests\Test\Config\ActionGroupData" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\ActionGroupData</argument>
+        </arguments>
+    </virtualType>
+
+    <!--Config for Suite Data -->
+
+    <type name="MFTFBuddy\Tests\Suite\Parsers\SuiteDataParser">
+        <arguments>
+            <argument name="suiteData" xsi:type="object">MFTFBuddy\Tests\Suite\Config\SuiteData</argument>
+        </arguments>
+    </type>
+    <virtualType name="MFTFBuddy\Tests\Suite\Config\SuiteData" type="MFTFBuddy\Tests\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">MFTFBuddy\Tests\Config\Reader\SuiteData</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\SchemaLocator\SuiteData" type="MFTFBuddy\Tests\Config\SchemaLocator">
+        <arguments>
+            <argument name="schemaPath" xsi:type="string">src/Suite/etc/mergedSuiteSchema.xsd</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MFTFBuddy\Tests\Config\Reader\SuiteData" type="MFTFBuddy\Tests\Config\Reader\MftfFilesystem">
+        <arguments>
+            <argument name="fileResolver" xsi:type="object">MFTFBuddy\Tests\Config\FileResolver\Root</argument>
+            <argument name="converter" xsi:type="object">MFTFBuddy\Tests\Config\SuiteDataConverter</argument>
+            <argument name="schemaLocator" xsi:type="object">MFTFBuddy\Tests\Config\SchemaLocator\SuiteData</argument>
+            <argument name="domDocumentClass" xsi:type="string">MFTFBuddy\Tests\Suite\Config\SuiteDom</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/suites/suite" xsi:type="string">name</item>
+                <item name="/suites/suite/(before|after)/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/suites/suite/(before|after)/actionGroup/argument" xsi:type="string">name</item>
+                <item name="/suites/suite/(before|after)/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/suites/suite/(before|after)/createData/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/suites/suite/(before|after)/createData/field" xsi:type="string">key</item>
+                <item name="/suites/suite/include/(group|test|module)" xsi:type="string">name</item>
+                <item name="/suites/suite/exclude/(group|test|module)" xsi:type="string">name</item>
+            </argument>
+            <argument name="fileName" xsi:type="string">/\.xml$/</argument>
+            <argument name="defaultScope" xsi:type="string">Suite</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Suite\Config\Dom\SuiteArrayNodeConfig" type="MFTFBuddy\Tests\Config\Dom\ArrayNodeConfig">
+        <arguments>
+            <argument name="assocArrayAttributes" xsi:type="array">
+                <item name="/suites/suite" xsi:type="string">name</item>
+                <item name="/suites/suite/(before|after)/remove" xsi:type="string">keyForRemoval</item>
+                <item name="/suites/suite/(before|after)/actionGroup/argument" xsi:type="string">name</item>
+                <item name="/suites/suite/(before|after)/(actionGroup|&commonTestActions;)" xsi:type="string">stepKey</item>
+                <item name="/suites/suite/(before|after)/createData/requiredEntity" xsi:type="string">createDataKey</item>
+                <item name="/suites/suite/(before|after)/createData/field" xsi:type="string">key</item>
+                <item name="/suites/suite/include/(group|test|module)" xsi:type="string">name</item>
+                <item name="/suites/suite/exclude/(group|test|module)" xsi:type="string">name</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MFTFBuddy\Tests\Config\SuiteDataConverter" type="MFTFBuddy\Tests\Test\Config\Converter\Dom\Flat">
+        <arguments>
+            <argument name="arrayNodeConfig" xsi:type="object">MFTFBuddy\Tests\Suite\Config\Dom\SuiteArrayNodeConfig</argument>
+        </arguments>
+    </virtualType>
+</config>
