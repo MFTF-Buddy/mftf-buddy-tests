@@ -9,8 +9,7 @@ use MFTFBuddy\Tests\Config\EnvFile;
 use Symfony\Component\Dotenv\Dotenv;
 
 // define framework basepath for schema pathing
-// defined('FW_BP') || define('FW_BP', realpath(__DIR__ . '/../../../'));
-defined('FW_BP') || define('FW_BP', realpath(__DIR__ . '/../'));
+defined('MB_FW_BP') || define('MB_FW_BP', realpath(__DIR__ . '/../'));
 // get the root path of the project
 $projectRootPath = BP;
 defined('PROJECT_ROOT') || define('PROJECT_ROOT', $projectRootPath);

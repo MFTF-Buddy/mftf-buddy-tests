@@ -60,6 +60,7 @@ class EnvFile
         'MAGENTO_BP',
         'TESTS_BP',
         'FW_BP',
+        'MB_FW_BP',
         'TESTS_MODULE_PATH',
 
         #*** Uncomment this property to change the default timezone MFTF will use for the generateDate action ***#

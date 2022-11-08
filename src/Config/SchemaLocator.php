@@ -37,9 +37,9 @@ class SchemaLocator implements \MFTFBuddy\Tests\Config\SchemaLocatorInterface
      */
     public function __construct($schemaPath, $perFileSchema = null)
     {
-        if (constant('FW_BP') && file_exists(FilePathFormatter::format(FW_BP) . $schemaPath)) {
-            $this->schemaPath = FilePathFormatter::format(FW_BP) . $schemaPath;
-            $this->perFileSchema = $perFileSchema === null ? null : FilePathFormatter::format(FW_BP)
+        if (constant('MB_FW_BP') && file_exists(FilePathFormatter::format(MB_FW_BP) . $schemaPath)) {
+            $this->schemaPath = FilePathFormatter::format(MB_FW_BP) . $schemaPath;
+            $this->perFileSchema = $perFileSchema === null ? null : FilePathFormatter::format(MB_FW_BP)
                 . $perFileSchema;
         } else {
             $path = dirname(dirname(dirname(__DIR__)));
