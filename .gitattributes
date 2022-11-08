@@ -1,2 +1,2 @@
-.gitlab-ci.yml export-ignore
-.git export-ignore
+/.gitlab-ci.yml export-ignore
+/.git export-ignore
