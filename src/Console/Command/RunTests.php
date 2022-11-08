@@ -265,8 +265,7 @@ class RunTests extends Command
                 )
                 . 'etc/module.xml';
         } catch (Exception $e) {
-            echo 'XXX:' . $localFilePath . ':XXX';
-            throw $e;
+            throw new Exception('XXX:' . $localFilePath . ':XXX');
         }
 
         if (!array_key_exists($moduleFilePath, $this->moduleCodeForModuleFilePath)) {
