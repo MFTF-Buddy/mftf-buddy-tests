@@ -264,7 +264,7 @@ class RunTests extends Command
                     strpos($localFilePath, self::TEST_MFTF_PATH_PART)
                 )
                 . 'etc/module.xml';
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             throw new Exception('XXX:' . $localFilePath . ':XXX');
         }
 
