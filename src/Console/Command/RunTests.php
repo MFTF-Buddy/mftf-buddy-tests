@@ -178,6 +178,10 @@ class RunTests extends Command
                 $fileNamePrefixSize = strlen(BP) + 1;
                 $map = [];
                 foreach ($fileNames as $localFilePath) {
+                    if (false === strpos($localFilePath, self::TEST_MFTF_PATH_PART)) {
+                        continue;
+                    }
+
                     $remoteFilePath = substr($localFilePath, $fileNamePrefixSize);
                     $moduleCode = $this->getModuleCodeForLocalFilePath($localFilePath);
 
@@ -257,16 +261,12 @@ class RunTests extends Command
 
     protected function getModuleCodeForLocalFilePath(string $localFilePath): string
     {
-        try {
-            $moduleFilePath = substr(
-                    $localFilePath,
-                    0,
-                    strpos($localFilePath, self::TEST_MFTF_PATH_PART)
-                )
-                . 'etc/module.xml';
-        } catch (\Throwable $e) {
-            throw new Exception('XXX:' . $localFilePath . ':XXX');
-        }
+        $moduleFilePath = substr(
+                $localFilePath,
+                0,
+                strpos($localFilePath, self::TEST_MFTF_PATH_PART)
+            )
+            . 'etc/module.xml';
 
         if (!array_key_exists($moduleFilePath, $this->moduleCodeForModuleFilePath)) {
             $moduleFileContents = file_get_contents($moduleFilePath);
