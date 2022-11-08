@@ -123,7 +123,7 @@ class EnvFile
             $additionalVars[$varName] = $varValue;
         }
 
-        $loader = new FilesystemLoader(FW_BP . '/templates/');
+        $loader = new FilesystemLoader(BP . '/vendor/mftf-buddy/tests/templates/');
         $twig = new Environment($loader);
         $contents = $twig->render(
             'env_mb.twig',
