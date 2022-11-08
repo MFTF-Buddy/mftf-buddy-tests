@@ -25,7 +25,6 @@
         "composer/composer": "^1.9||^2.0",
         "mustache/mustache": "~2.5",
         "symfony/dotenv": "^5.3",
-        "symfony/yaml": "^5.3",
         "twig/twig": "^3.4"
     },
     "require-dev": {
