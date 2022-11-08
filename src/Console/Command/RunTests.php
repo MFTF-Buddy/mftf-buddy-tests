@@ -257,12 +257,17 @@ class RunTests extends Command
 
     protected function getModuleCodeForLocalFilePath(string $localFilePath): string
     {
-        $moduleFilePath = substr(
-                $localFilePath,
-                0,
-                strpos($localFilePath, self::TEST_MFTF_PATH_PART)
-            )
-            . 'etc/module.xml';
+        try {
+            $moduleFilePath = substr(
+                    $localFilePath,
+                    0,
+                    strpos($localFilePath, self::TEST_MFTF_PATH_PART)
+                )
+                . 'etc/module.xml';
+        } catch (Exception $e) {
+            echo 'XXX:' . $localFilePath . ':XXX';
+            throw $e;
+        }
 
         if (!array_key_exists($moduleFilePath, $this->moduleCodeForModuleFilePath)) {
             $moduleFileContents = file_get_contents($moduleFilePath);
