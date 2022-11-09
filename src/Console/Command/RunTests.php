@@ -38,6 +38,10 @@ class RunTests extends Command
     private const TEST_MFTF_PATH_PART = 'Test/Mftf';
     private const APP_CODE_PATH_PART = 'app/code';
 
+    protected const CREDENTIALS_FILES = [
+        '/dev/tests/acceptance/.credentials',
+    ];
+
     protected ProductMetadataInterface $productMetadata;
     protected array $moduleCodeForModuleFilePath = [];
 
@@ -296,6 +300,18 @@ class RunTests extends Command
         $transport = $this->getTransport();
 
         $additionalVars = getenv('MB_ADDITIONAL_VARS') ?: '';
+
+        $credentials = '';
+        foreach (self::CREDENTIALS_FILES as $credentialsFile) {
+            $credentialsFilePath = BP . $credentialsFile;
+            if (!file_exists($credentialsFilePath)) {
+                continue;
+            }
+
+            $credentials = file_get_contents($credentialsFilePath);
+            break;
+        }
+
         $settings = [
             #*** Set secret key for MFTF Buddy ***#
             'MB_SECRET_KEY' => getenv('MB_SECRET_KEY'),
@@ -379,6 +395,8 @@ class RunTests extends Command
             'MB_MAGENTO_ADMIN_WEBAPI_TOKEN_LIFETIME' => getenv('MB_MAGENTO_ADMIN_WEBAPI_TOKEN_LIFETIME'),
 
             'MB_ADDITIONAL_VARS' => $additionalVars,
+
+            'MB_CREDENTIALS' => $credentials,
 
             'MB_SUITE_NAME' => $suiteName,
         ];
