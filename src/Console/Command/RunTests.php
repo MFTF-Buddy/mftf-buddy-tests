@@ -295,7 +295,7 @@ class RunTests extends Command
     ): string {
         $transport = $this->getTransport();
 
-        $additionalVars = getenv('MB_ADDITIONAL_VARS');
+        $additionalVars = getenv('MB_ADDITIONAL_VARS') ?: '';
         $settings = [
             #*** Set secret key for MFTF Buddy ***#
             'MB_SECRET_KEY' => getenv('MB_SECRET_KEY'),
