@@ -64,8 +64,7 @@ class WebApiAuth
         if (!$password) {
             try {
                 $encryptedSecret = CredentialStore::getInstance()->getSecret('magento/MAGENTO_ADMIN_PASSWORD');
-                $secret = CredentialStore::getInstance()->decryptSecretValue($encryptedSecret);
-                $password = $password ?? $secret;
+                $password = CredentialStore::getInstance()->decryptSecretValue($encryptedSecret);
             } catch (TestFrameworkException $e) {
                 $message = "Password not found in credentials file";
                 throw new FastFailException($message . $e->getMessage(), $e->getContext());
