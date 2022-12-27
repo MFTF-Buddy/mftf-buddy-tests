@@ -28,7 +28,7 @@ MB_MAGENTO_BASE_URL={{ config.MAGENTO_BASE_URL }}
 
 {% if false == config.MAGENTO_ADMIN_USERNAME %}MB_MAGENTO_ADMIN_USERNAME=admin{% else %}MB_MAGENTO_ADMIN_USERNAME={{ config.MAGENTO_ADMIN_USERNAME }}{% endif %}
 
-{% if false == config.MAGENTO_ADMIN_PASSWORD %}MB_MAGENTO_ADMIN_PASSWORD=123123q{% else %}MB_MAGENTO_ADMIN_PASSWORD={{ config.MAGENTO_ADMIN_PASSWORD }}{% endif %}
+{% if false == config.MAGENTO_ADMIN_PASSWORD %}# MB_MAGENTO_ADMIN_PASSWORD={% else %}MB_MAGENTO_ADMIN_PASSWORD={{ config.MAGENTO_ADMIN_PASSWORD }}{% endif %}
 
 
 #*** Path to CLI entry point and command parameter name. Uncomment and change if folder structure differs from standard Magento installation
