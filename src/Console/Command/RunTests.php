@@ -246,6 +246,9 @@ class RunTests extends Command
         }
 
         $response = json_decode($response, true);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
+        }
 
         $type = $response['@type'] ?? '';
         if ($type !== 'TestBundle') {
@@ -428,6 +431,9 @@ class RunTests extends Command
         }
 
         $response = json_decode($response, true);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
+        }
 
         $type = $response['@type'] ?? '';
         if ($type !== 'TestSession') {
