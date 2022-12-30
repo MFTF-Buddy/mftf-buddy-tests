@@ -245,17 +245,17 @@ class RunTests extends Command
             unlink($tmpZipFileName);
         }
 
-        $response = json_decode($response, true);
+        $responseJson = json_decode($response, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
         }
 
-        $type = $response['@type'] ?? '';
+        $type = $responseJson['@type'] ?? '';
         if ($type !== 'TestBundle') {
             throw new Exception("Unexpected type '$type'");
         }
 
-        $id = $response['@id'] ?? '';
+        $id = $responseJson['@id'] ?? '';
 
         $matches = [];
         if (!preg_match(':^/test_bundles/(.*)$:', $id, $matches)) {
@@ -430,17 +430,17 @@ class RunTests extends Command
             $transport->close();
         }
 
-        $response = json_decode($response, true);
+        $responseJson = json_decode($response, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
         }
 
-        $type = $response['@type'] ?? '';
+        $type = $responseJson['@type'] ?? '';
         if ($type !== 'TestSession') {
             throw new Exception("Unexpected type '$type'");
         }
 
-        $id = $response['@id'] ?? '';
+        $id = $responseJson['@id'] ?? '';
 
         $matches = [];
         if (!preg_match(':^/test_sessions/(.*)$:', $id, $matches)) {
