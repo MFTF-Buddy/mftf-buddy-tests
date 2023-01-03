@@ -31,6 +31,7 @@ use ZipArchive;
 class RunTests extends Command
 {
     private const ARG_SUITE_NAME = 'suite-name';
+    private const ARG_GROUPS_NUMBER = 'groups-number';
     private const PAGE = 'page';
     private const SECTION = 'section';
     private const MODULE_DOM_NODE = 'module';
@@ -58,10 +59,16 @@ class RunTests extends Command
     {
         $this->setName('mftf-buddy:run-tests');
         $this->setDescription('Run tests');
+
         $this->addArgument(
             self::ARG_SUITE_NAME,
             InputArgument::REQUIRED,
             'The name of the suite to be runned.'
+        );
+        $this->addArgument(
+            self::ARG_GROUPS_NUMBER,
+            InputArgument::OPTIONAL,
+            'Number of parallel groups to be runned.'
         );
     }
 
@@ -70,6 +77,7 @@ class RunTests extends Command
         OutputInterface $output
     ): void {
         $suiteName = $input->getArgument(self::ARG_SUITE_NAME);
+        $groupsNumber = (int) $input->getArgument(self::ARG_GROUPS_NUMBER, getenv('MB_GROUPS'));
 
         $fileNames = $this->collectFiles($output);
 
@@ -81,6 +89,7 @@ class RunTests extends Command
         $testSessionId = $this->createTestSession(
             $output,
             $suiteName,
+            $groupsNumber,
             $testBundleId
         );
     }
@@ -298,6 +307,7 @@ class RunTests extends Command
     protected function createTestSession(
         OutputInterface $output,
         string $suiteName,
+        int $groupsNumber,
         string $testBundleId
     ): string {
         $transport = $this->getTransport();
@@ -320,7 +330,7 @@ class RunTests extends Command
             'MB_SECRET_KEY' => getenv('MB_SECRET_KEY'),
 
             #*** Number of parallel groups of MFTF Buddy tests ***#
-            'MB_GROUPS' => getenv('MB_GROUPS'),
+            'MB_GROUPS' => $groupsNumber,
 
             #*** Browsers for running tests on MFTF Buddy ***#
             'MB_BROWSERS' => getenv('MB_BROWSERS'),
