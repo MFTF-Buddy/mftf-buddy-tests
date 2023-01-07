@@ -43,8 +43,15 @@ class RunTests extends Command
         '/dev/tests/acceptance/.credentials',
     ];
 
-    protected ProductMetadataInterface $productMetadata;
-    protected array $moduleCodeForModuleFilePath = [];
+    /**
+     * @var ProductMetadataInterface
+     */
+    protected $productMetadata;
+
+    /**
+     * @var array
+     */
+    protected $moduleCodeForModuleFilePath = [];
 
     public function __construct(
         ProductMetadataInterface $productMetadata,
