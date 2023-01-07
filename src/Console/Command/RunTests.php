@@ -117,7 +117,7 @@ class RunTests extends Command
         $testDataParser = $objectManager->create(TestDataParser::class);
         $parserOutput = $testDataParser->readTestData();
         foreach ($parserOutput as $entry) {
-            $fileNames = explode(',', $entry['filename']);
+            $fileNames = explode(',', $entry['filename'] ?? '');
             $testFileNames[] = $fileNames;
         }
 
