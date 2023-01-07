@@ -80,7 +80,7 @@
             </xs:documentation>
         </xs:annotation>
     </xs:attribute>
-    
+
     <!-- Complex Types -->
 
     <!-- ASSERTION TYPES -->
@@ -131,7 +131,7 @@
             <xs:element name="expectedResult" type="expectedResultType" minOccurs="0"/>
             <xs:element name="actualResult" type="actualResultType" minOccurs="0"/>
         </xs:choice>
-        <xs:attribute ref="message"/>        
+        <xs:attribute ref="message"/>
         <xs:attributeGroup ref="commonActionAttributes"/>
     </xs:complexType>
 
