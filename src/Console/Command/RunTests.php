@@ -133,7 +133,7 @@ class RunTests extends Command
         $parser = $objectManager->get(SectionParser::class);
         $parserOutput = $parser->getData(self::SECTION);
         foreach ($parserOutput as $entry) {
-            $fileNames = explode(',', $entry['filename']);
+            $fileNames = explode(',', $entry['filename'] ?? '');
             $sectionFileNames[] = $fileNames;
         }
 
@@ -149,7 +149,7 @@ class RunTests extends Command
         $parser = $objectManager->create(DataProfileSchemaParser::class);
         $parserOutput = $parser->readDataProfiles();
         foreach ($parserOutput['entity'] as $entry) {
-            $fileNames = explode(',', $entry['filename']);
+            $fileNames = explode(',', $entry['filename'] ?? '');
             $dataFileNames[] = $fileNames;
         }
 
@@ -157,7 +157,7 @@ class RunTests extends Command
         $parser = $objectManager->create(OperationDefinitionParser::class);
         $parserOutput = $parser->readOperationMetadata();
         foreach ($parserOutput['operation'] as $entry) {
-            $fileNames = explode(',', $entry['filename']);
+            $fileNames = explode(',', $entry['filename'] ?? '');
             $metadataFileNames[] = $fileNames;
         }
 
