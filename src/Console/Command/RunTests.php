@@ -125,7 +125,7 @@ class RunTests extends Command
         $parser = $objectManager->get(PageParser::class);
         $parserOutput = $parser->getData(self::PAGE);
         foreach ($parserOutput as $entry) {
-            $fileNames = explode(',', $entry['filename']);
+            $fileNames = explode(',', $entry['filename'] ?? '');
             $pageFileNames[] = $fileNames;
         }
 
