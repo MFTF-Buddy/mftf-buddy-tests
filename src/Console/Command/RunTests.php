@@ -205,21 +205,22 @@ class RunTests extends Command
                     $remoteFilePath = substr($localFilePath, $fileNamePrefixSize);
                     $moduleCode = $this->getModuleCodeForLocalFilePath($localFilePath);
 
-                    // move non-Magento modules from vendor to app/code
-                    if (
-                        0 === strpos($remoteFilePath, 'vendor/')
-                        && 0 !== strpos($remoteFilePath, 'vendor/magento/')
-                    ) {
-                        list($moduleVendor, $moduleName) = explode('_', $moduleCode);
+                    //TODO: remove me
+                    // // move non-Magento modules from vendor to app/code
+                    // if (
+                    //     0 === strpos($remoteFilePath, 'vendor/')
+                    //     && 0 !== strpos($remoteFilePath, 'vendor/magento/')
+                    // ) {
+                    //     list($moduleVendor, $moduleName) = explode('_', $moduleCode);
 
-                        $remoteFilePath = self::APP_CODE_PATH_PART
-                            . "/$moduleVendor/$moduleName/"
-                            . substr(
-                                $localFilePath,
-                                strpos($localFilePath, self::TEST_MFTF_PATH_PART)
-                            );
+                    //     $remoteFilePath = self::APP_CODE_PATH_PART
+                    //         . "/$moduleVendor/$moduleName/"
+                    //         . substr(
+                    //             $localFilePath,
+                    //             strpos($localFilePath, self::TEST_MFTF_PATH_PART)
+                    //         );
 
-                    }
+                    // }
 
                     $zip->addFile($localFilePath, $remoteFilePath);
 
