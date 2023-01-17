@@ -47,6 +47,10 @@ class DuplicateNodeValidationUtil
      */
     public function validateChildUniqueness(\DOMElement $parentNode, $filename, $parentKey)
     {
+        // pc ->
+        return;
+        // pc <-
+
         $childNodes = $parentNode->childNodes;
         $type = ucfirst($parentNode->tagName);
 
