@@ -32,7 +32,7 @@ MB_MAGENTO_BASE_URL={{ config.MAGENTO_BASE_URL }}
 
 
 #*** Path to CLI entry point and command parameter name. Uncomment and change if folder structure differs from standard Magento installation
-{% if false == config.MAGENTO_CLI_COMMAND_PATH %}# MB_MAGENTO_CLI_COMMAND_PATH=mftf/dev/utils/command_sandbox.php{% else %}MB_MAGENTO_CLI_COMMAND_PATH={{ config.MAGENTO_CLI_COMMAND_PATH }}{% endif %}
+{% if false == config.MAGENTO_CLI_COMMAND_PATH %}# MB_MAGENTO_CLI_COMMAND_PATH=dev/tests/acceptance/utils/command.php{% else %}MB_MAGENTO_CLI_COMMAND_PATH={{ config.MAGENTO_CLI_COMMAND_PATH }}{% endif %}
 
 {% if false == config.MAGENTO_CLI_COMMAND_PARAMETER %}# MB_MAGENTO_CLI_COMMAND_PARAMETER=command{% else %}MB_MAGENTO_CLI_COMMAND_PARAMETER={{ config.MAGENTO_CLI_COMMAND_PARAMETER }}{% endif %}
 
