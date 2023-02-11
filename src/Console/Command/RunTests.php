@@ -31,13 +31,12 @@ use ZipArchive;
 class RunTests extends Command
 {
     private const ARG_SUITE_NAME = 'suite-name';
-    private const ARG_GROUPS_NUMBER = 'groups-number';
+    // private const ARG_GROUPS_NUMBER = 'groups-count';
     private const PAGE = 'page';
     private const SECTION = 'section';
     private const MODULE_DOM_NODE = 'module';
     private const MODULE_MAP_FILE_NAME = 'module_map.json';
     private const TEST_MFTF_PATH_PART = 'Test/Mftf';
-    private const APP_CODE_PATH_PART = 'app/code';
 
     protected const CREDENTIALS_FILES = [
         '/dev/tests/acceptance/.credentials',
@@ -53,10 +52,8 @@ class RunTests extends Command
      */
     protected $moduleCodeForModuleFilePath = [];
 
-    public function __construct(
-        ProductMetadataInterface $productMetadata,
-        string $name = null
-    ) {
+    public function __construct(ProductMetadataInterface $productMetadata, string $name = null)
+    {
         parent::__construct($name);
 
         $this->productMetadata = $productMetadata;
@@ -70,38 +67,35 @@ class RunTests extends Command
         $this->addArgument(
             self::ARG_SUITE_NAME,
             InputArgument::REQUIRED,
-            'The name of the suite to be runned.'
+            'The name of the suite to be run.'
         );
-        $this->addArgument(
-            self::ARG_GROUPS_NUMBER,
-            InputArgument::OPTIONAL,
-            'Number of parallel groups to be runned.'
-        );
+        // $this->addArgument(
+        //     self::ARG_GROUPS_COUNT,
+        //     InputArgument::OPTIONAL,
+        //     'Number of parallel groups to be run.'
+        // );
     }
 
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
-    ): void {
+    protected function execute(InputInterface $input, OutputInterface $output): void
+    {
         $suiteName = $input->getArgument(self::ARG_SUITE_NAME);
-        $groupsNumber = (int) $input->getArgument(self::ARG_GROUPS_NUMBER, getenv('MB_GROUPS'));
+        // $groupsCount = (int)$input->getArgument(self::ARG_GROUPS_COUNT, getenv('MB_GROUPS'));
+        $groupsCount = 1;
 
-        $fileNames = $this->collectFiles($output);
+        $fileNames = $this->collectFiles();
 
-        $testBundleId = $this->createTestBundle(
-            $output,
-            $fileNames
-        );
+        $testBundleId = $this->createTestBundle($fileNames);
 
         $testSessionId = $this->createTestSession(
-            $output,
             $suiteName,
-            $groupsNumber,
+            $groupsCount,
             $testBundleId
         );
+
+        $output->writeln($testSessionId);
     }
 
-    protected function collectFiles(OutputInterface $output): array
+    protected function collectFiles(): array
     {
         $objectManager = ObjectManagerFactory::getObjectManager();
 
@@ -184,10 +178,8 @@ class RunTests extends Command
         return $result;
     }
 
-    protected function createTestBundle(
-        OutputInterface $output,
-        array $fileNames
-    ): string {
+    protected function createTestBundle(array $fileNames): string
+    {
         // prepare zip file
         $tmpZipFileName = tempnam('/tmp', 'zip');
         try {
@@ -204,23 +196,6 @@ class RunTests extends Command
 
                     $remoteFilePath = substr($localFilePath, $fileNamePrefixSize);
                     $moduleCode = $this->getModuleCodeForLocalFilePath($localFilePath);
-
-                    //TODO: remove me
-                    // // move non-Magento modules from vendor to app/code
-                    // if (
-                    //     0 === strpos($remoteFilePath, 'vendor/')
-                    //     && 0 !== strpos($remoteFilePath, 'vendor/magento/')
-                    // ) {
-                    //     list($moduleVendor, $moduleName) = explode('_', $moduleCode);
-
-                    //     $remoteFilePath = self::APP_CODE_PATH_PART
-                    //         . "/$moduleVendor/$moduleName/"
-                    //         . substr(
-                    //             $localFilePath,
-                    //             strpos($localFilePath, self::TEST_MFTF_PATH_PART)
-                    //         );
-
-                    // }
 
                     $zip->addFile($localFilePath, $remoteFilePath);
 
@@ -313,9 +288,8 @@ class RunTests extends Command
     }
 
     protected function createTestSession(
-        OutputInterface $output,
         string $suiteName,
-        int $groupsNumber,
+        int $groupsCount,
         string $testBundleId
     ): string {
         $transport = $this->getTransport();
@@ -338,7 +312,7 @@ class RunTests extends Command
             'MB_SECRET_KEY' => getenv('MB_SECRET_KEY'),
 
             #*** Number of parallel groups of MFTF Buddy tests ***#
-            'MB_GROUPS' => $groupsNumber,
+            'MB_GROUPS' => $groupsCount,
 
             #*** Browsers for running tests on MFTF Buddy ***#
             'MB_BROWSERS' => getenv('MB_BROWSERS'),
