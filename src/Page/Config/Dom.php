@@ -114,7 +114,8 @@ class Dom extends \MFTFBuddy\Tests\Config\MftfDom
                 $pageName = $pageNode->getAttribute("name");
                 if ($pageModule !== $currentModule) {
                     if (MftfApplicationConfig::getConfig()->verboseEnabled()) {
-                        print(
+                        fwrite(
+                            STDERR,
                             "Page Module does not match path Module. " .
                             "(Page, Module): ($pageName, $pageModule) - Path Module: $currentModule" .
                             PHP_EOL

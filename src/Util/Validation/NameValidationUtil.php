@@ -177,7 +177,7 @@ class NameValidationUtil
     {
         if ($this->count > 0) {
             LoggingUtil::getInstance()->getLogger(self::class)->notification(
-                "{$this->count} {$type} violations detected. See mftf.log for details.",
+                "{$this->count} {$type} violations detected. See mb_mftf.log for details.",
                 [],
                 true
             );

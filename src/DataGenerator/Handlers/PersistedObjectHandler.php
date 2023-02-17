@@ -196,7 +196,7 @@ class PersistedObjectHandler
             LoggingUtil::getInstance()->getLogger(PersistedObjectHandler::class)->warning($warnMsg);
             if (MftfApplicationConfig::getConfig()->verboseEnabled()
                 && MftfApplicationConfig::getConfig()->getPhase() !== MftfApplicationConfig::UNIT_TEST_PHASE) {
-                print("\n$warnMsg\n");
+                    fwrite(STDERR, "\n$warnMsg\n");
             }
         }
         return $fieldValue;

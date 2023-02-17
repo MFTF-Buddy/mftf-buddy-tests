@@ -87,6 +87,6 @@ class LoggingUtil
      */
     public function getLoggingPath(): string
     {
-        return FilePathFormatter::format(TESTS_BP) . "mftf.log";
+        return FilePathFormatter::format(TESTS_BP) . "mb_mftf.log";
     }
 }
