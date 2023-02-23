@@ -57,8 +57,9 @@ class DumpLogs extends Command
 
         $transport = $this->getTransport();
 
+        $url = $this->apiBaseUrl . "/test_sessions/{$this->magentoTestSessionId}";
         $transport->write(
-            $this->apiBaseUrl . "/test_sessions/{$this->magentoTestSessionId}",
+            $url,
             [],
             CurlInterface::GET,
             [
@@ -66,14 +67,15 @@ class DumpLogs extends Command
             ]
         );
         try {
-            $response = $transport->read();
+            $response = $transport->read(null, null, null, $url);
         } finally {
             $transport->close();
         }
 
+        $response = preg_replace('/[[:cntrl:]]/', '', $response);
         $responseJson = json_decode($response, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
+            throw new Exception('Json error: ' . json_last_error_msg() . ', response: ' . substr($response, 0, 1000));
         }
 
         $type = $responseJson['@type'] ?? '';
@@ -107,7 +109,7 @@ class DumpLogs extends Command
     {
         $transport = new CurlTransport();
         $transport->addOption(CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        $transport->addOption(CURLOPT_TIMEOUT, getenv('MB_API_TIMEOUT'));
+        $transport->addOption(CURLOPT_TIMEOUT, 300/*getenv('MB_API_TIMEOUT')*/);
 
         return $transport;
     }
@@ -138,17 +140,17 @@ class DumpLogs extends Command
 
                 $hubLog = $magentoNode['hubLog'] ?? null;
                 if ($hubLog) {
-                    file_put_contents('hub_log.txt', $hubLog);
+                    file_put_contents('hub_log.txt', gzdecode(base64_decode($hubLog)));
                 }
 
                 $log = $magentoNode['log'] ?? null;
                 if ($log) {
-                    file_put_contents('log.txt', $log);
+                    file_put_contents('log.txt', gzdecode(base64_decode($log)));
                 }
 
                 $mftfLog = $magentoNode['mftfLog'] ?? null;
                 if ($mftfLog) {
-                    file_put_contents('mftf_log.txt', $mftfLog);
+                    file_put_contents('mftf_log.txt', gzdecode(base64_decode($mftfLog)));
                 }
 
                 $this->handleSeleniumSessions($magentoNodeId);
@@ -166,8 +168,9 @@ class DumpLogs extends Command
         do {
             $transport = $this->getTransport();
 
+            $url = $this->apiBaseUrl . "/selenium-director/test_sessions?magentoGridSessionId={$this->magentoTestSessionId}&magentoGridNodeId={$magentoNodeId}&page=$page";
             $transport->write(
-                $this->apiBaseUrl . "/selenium-director/test_sessions?magentoGridSessionId={$this->magentoTestSessionId}&magentoGridNodeId={$magentoNodeId}&page=$page",
+                $url,
                 [],
                 CurlInterface::GET,
                 [
@@ -175,14 +178,15 @@ class DumpLogs extends Command
                 ]
             );
             try {
-                $response = $transport->read();
+                $response = $transport->read(null, null, null, $url);
             } finally {
                 $transport->close();
             }
 
+            $response = preg_replace('/[[:cntrl:]]/', '', $response);
             $responseJson = json_decode($response, true);
             if (JSON_ERROR_NONE !== json_last_error()) {
-                throw new Exception('Json error: ' . json_last_error_msg() . ", response: $response");
+                throw new Exception('Json error: ' . json_last_error_msg() . ', response: ' . substr($response, 0, 1000));
             }
 
             $type = $responseJson['@type'] ?? '';
@@ -194,6 +198,7 @@ class DumpLogs extends Command
 
             $this->handleSeleniumSessionsPage($seleniumSessions);
 
+            $page++;
             $hasNextPage = (bool)($responseJson['hydra:view']['hydra:next'] ?? false);
         } while ($hasNextPage);
     }
@@ -242,22 +247,22 @@ class DumpLogs extends Command
 
                 $containerLog = $seleniumNode['containerLog'] ?? null;
                 if ($containerLog) {
-                    file_put_contents('container_log.txt', $containerLog);
+                    file_put_contents('container_log.txt', gzdecode(base64_decode($containerLog)));
                 }
 
                 $directorLog = $seleniumNode['directorLog'] ?? null;
                 if ($directorLog) {
-                    file_put_contents('director_log.txt', $directorLog);
+                    file_put_contents('director_log.txt', gzdecode(base64_decode($directorLog)));
                 }
 
                 $log = $seleniumNode['log'] ?? null;
                 if ($log) {
-                    file_put_contents('log.txt', $log);
+                    file_put_contents('log.txt', gzdecode(base64_decode($log)));
                 }
 
                 $webDriverLog = $seleniumNode['webDriverLog'] ?? null;
                 if ($webDriverLog) {
-                    file_put_contents('web_driver_log.txt', $webDriverLog);
+                    file_put_contents('web_driver_log.txt', gzdecode(base64_decode($webDriverLog)));
                 }
             } finally {
                 chdir($cwd);
