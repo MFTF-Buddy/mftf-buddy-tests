@@ -4,6 +4,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="mftf-buddy-run-tests" xsi:type="object">MFTFBuddy\Tests\Console\Command\RunTests</item>
+                <item name="mftf-buddy-dump-logs" xsi:type="object">MFTFBuddy\Tests\Console\Command\DumpLogs</item>
             </argument>
         </arguments>
     </type>

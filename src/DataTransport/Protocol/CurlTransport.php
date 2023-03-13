@@ -167,16 +167,16 @@ class CurlTransport implements CurlInterface
      * @return string
      * @throws TestFrameworkException
      */
-    public function read($successRegex = null, $returnRegex = null, $returnIndex = null)
+    public function read($successRegex = null, $returnRegex = null, $returnIndex = null, $url = null)
     {
         $response = curl_exec($this->getResource());
 
         if ($response === false) {
-            throw new TestFrameworkException(curl_error($this->getResource()));
+            throw new TestFrameworkException("Url: $url, " . curl_error($this->getResource()));
         }
         $http_code = $this->getInfo(CURLINFO_HTTP_CODE);
         if (!in_array($http_code, self::SUCCESSFUL_HTTP_CODES)) {
-            throw new TestFrameworkException('Error HTTP response code: ' . $http_code . '    Response:' . $response);
+            throw new TestFrameworkException("Url: $url, Error HTTP response code: $http_code Response: $response");
         }
 
         return $response;

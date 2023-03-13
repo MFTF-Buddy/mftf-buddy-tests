@@ -13,8 +13,8 @@ class EnvFile
     public const ENV_FILE_NAME = '.env_mb';
 
     protected const SOURCE_ENV_FILES = [
-        '/dev/tests/acceptance/.env',
-        '/vendor/magento/magento2-functional-testing-framework/etc/config/.env.example',
+        'dev/tests/acceptance/.env',
+        'vendor/magento/magento2-functional-testing-framework/etc/config/.env.example',
     ];
 
     protected const KNOWN_VARS = [
@@ -103,7 +103,7 @@ class EnvFile
         $config = [];
         $env = new Dotenv();
         foreach (self::SOURCE_ENV_FILES as $sourceEnvFile) {
-            $sourceFilePath = BP . $sourceEnvFile;
+            $sourceFilePath = BP . '/' . $sourceEnvFile;
             if (!file_exists($sourceFilePath)) {
                 continue;
             }
