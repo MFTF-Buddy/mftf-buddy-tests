@@ -84,11 +84,13 @@ class Flat implements ConverterInterface
                 $isNumericArrayNode = $this->arrayNodeConfig->isNumericArray($nodePath);
                 $isArrayNode = $isNumericArrayNode || $arrayKeyAttribute;
 
-                if (isset($value[$nodeName]) && !$isArrayNode) {
-                    throw new \UnexpectedValueException(
-                        "Node path '{$nodePath}' is not unique, but it has not been marked as array."
-                    );
-                }
+                //pc ->
+                // if (isset($value[$nodeName]) && !$isArrayNode) {
+                //     throw new \UnexpectedValueException(
+                //         "Node path '{$nodePath}' is not unique, but it has not been marked as array."
+                //     );
+                // }
+                //pc <-
 
                 if ($nodeName === self::REMOVE_ACTION) {
                     // Check to see if the test extends for this remove action

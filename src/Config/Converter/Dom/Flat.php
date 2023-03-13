@@ -85,11 +85,13 @@ class Flat
                 $isNumericArrayNode = $this->arrayNodeConfig->isNumericArray($nodePath);
                 $isArrayNode = $isNumericArrayNode || $arrayKeyAttribute;
 
-                if (isset($value[$nodeName]) && !$isArrayNode) {
-                    throw new \UnexpectedValueException(
-                        "Node path '{$nodePath}' is not unique, but it has not been marked as array."
-                    );
-                }
+                //pc ->
+                // if (isset($value[$nodeName]) && !$isArrayNode) {
+                //     throw new \UnexpectedValueException(
+                //         "Node path '{$nodePath}' is not unique, but it has not been marked as array."
+                //     );
+                // }
+                //pc <-
 
                 $nodeData = $this->convert($node, $nodePath);
 
