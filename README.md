@@ -9,5 +9,6 @@ Magento functional tests made easy!
 2. Install this module in your Magento project: 
   - `composer require mftf-buddy/tests`
   - `bin/magento module:enable MFTFBuddy_Tests`
+  - `bin/magento setup:upgrade`
 3. Set `MFTF Buddy Secret Key` as MB_SECRET_KEY env variable in dev/tests/acceptance/.env_mb file
 4. Run suite of tests via Magento CLI command: `bin/magento mftf-buddy:run-tests <suite-name>`
