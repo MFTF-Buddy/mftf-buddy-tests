@@ -8,6 +8,7 @@ use CURLFile;
 use DOMElement;
 use Exception;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Console\Cli;
 use MFTFBuddy\Tests\Config\Dom;
 use MFTFBuddy\Tests\DataGenerator\Parsers\DataProfileSchemaParser;
 use MFTFBuddy\Tests\DataGenerator\Parsers\OperationDefinitionParser;
@@ -76,7 +77,7 @@ class RunTests extends Command
         // );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $suiteName = $input->getArgument(self::ARG_SUITE_NAME);
         // $groupsCount = (int)$input->getArgument(self::ARG_GROUPS_COUNT, getenv('MB_GROUPS'));
@@ -93,6 +94,8 @@ class RunTests extends Command
         );
 
         $output->writeln($testSessionId);
+
+        return Cli::RETURN_SUCCESS;
     }
 
     protected function collectFiles(): array

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MFTFBuddy\Tests\Console\Command;
 
 use Exception;
+use Magento\Framework\Console\Cli;
 use MFTFBuddy\Tests\DataTransport\Protocol\CurlInterface;
 use MFTFBuddy\Tests\DataTransport\Protocol\CurlTransport;
 use Symfony\Component\Console\Command\Command;
@@ -45,7 +46,7 @@ class DumpLogs extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->apiBaseUrl = rtrim(getenv('MB_API_BASE_URL'), '/');
         $this->magentoTestSessionId = $input->getArgument(self::ARG_TEST_SESSION_ID);
@@ -103,6 +104,8 @@ class DumpLogs extends Command
         } finally {
             chdir($cwd);
         }
+
+        return Cli::RETURN_SUCCESS;
     }
 
     protected function getTransport(): CurlTransport
