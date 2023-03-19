@@ -15,4 +15,4 @@ Magento functional tests made easy!
   `bin/magento mftf-buddy:run-tests <suite-name>`<br />
    This command will output Test Session ID, which can be used to get detailed logs from finished test run
 5. Get detailed logs from finished test run:<br />
-  `bin/magento mftf-buddy:dump-logs <test-session-id>`
+  `bin/magento mftf-buddy:dump-logs <test-session-id> [<output-dir>]`
