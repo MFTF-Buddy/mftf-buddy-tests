@@ -79,6 +79,11 @@ class RunTests extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (!getenv('MB_SECRET_KEY')) {
+            $output->writeln('MB_SECRET_KEY is not set. Register at https://www.mftf-buddy.com and set MB_SECRET_KEY env variable in dev/tests/acceptance/.env_mb file.');
+            return Cli::RETURN_FAILURE;
+        }
+
         $suiteName = $input->getArgument(self::ARG_SUITE_NAME);
         // $groupsCount = (int)$input->getArgument(self::ARG_GROUPS_COUNT, getenv('MB_GROUPS'));
         $groupsCount = 1;
